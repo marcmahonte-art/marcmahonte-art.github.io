@@ -1,6 +1,10 @@
+const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL
+  ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  : undefined;
+
 const fallbackUrl =
   process.env.NODE_ENV === "production"
-    ? "https://marcmahonte-art.github.io"
+    ? vercelUrl ?? "https://marcmahonte-art.github.io"
     : "http://localhost:3000";
 
 export const site = {
