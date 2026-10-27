@@ -1,0 +1,204 @@
+[
+  {
+    "base": "greenmax/couverture",
+    "source": "GreenMax Capital - Cameroun/presentation/Greenmax Corporate Profile April 2026-CJA-Alex DE CORRECTION V3-1.png",
+    "width": 4000,
+    "height": 2250,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2400
+    ]
+  },
+  {
+    "base": "oeacp/carte-voeux",
+    "source": "OEACP - Belgique/A-15.png",
+    "width": 2000,
+    "height": 2000,
+    "widths": [
+      480,
+      800,
+      1200,
+      2000
+    ]
+  },
+  {
+    "base": "azalai/experience",
+    "source": "Azalai Hotel - Burkina Faso/visuel social media/AZALAÎ03.jpg",
+    "width": 1080,
+    "height": 1080,
+    "widths": [
+      480,
+      800,
+      1080
+    ]
+  },
+  {
+    "base": "azalai/mobile",
+    "source": "Azalai Hotel - Burkina Faso/visuel social media/az3-1.png",
+    "width": 2000,
+    "height": 2000,
+    "widths": [
+      480,
+      800,
+      1200,
+      2000
+    ]
+  },
+  {
+    "base": "azalai/architecture",
+    "source": "Azalai Hotel - Burkina Faso/visuel social media/az4.png",
+    "width": 2000,
+    "height": 2000,
+    "widths": [
+      480,
+      800,
+      1200,
+      2000
+    ]
+  },
+  {
+    "base": "azalai/evenement",
+    "source": "Azalai Hotel - Burkina Faso/visuel social media/az10.png",
+    "width": 1080,
+    "height": 1080,
+    "widths": [
+      480,
+      800,
+      1080
+    ]
+  },
+  {
+    "base": "laborex/voeux-digital",
+    "source": "Laborex - Burkina Faso/2E-CARTE-DE-VOEUX-DIGITAL.jpg",
+    "width": 1080,
+    "height": 1620,
+    "widths": [
+      480,
+      800,
+      1080
+    ]
+  },
+  {
+    "base": "laborex/voeux-print",
+    "source": "Laborex - Burkina Faso/2E-CARTE-DE-VOEUX-RECTO-.jpg",
+    "width": 2160,
+    "height": 1080,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2160
+    ]
+  },
+  {
+    "base": "laborex/roll-up",
+    "source": "Laborex - Burkina Faso/goodies/2-2.jpg",
+    "width": 5000,
+    "height": 4000,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2400
+    ]
+  },
+  {
+    "base": "laborex/carnet",
+    "source": "Laborex - Burkina Faso/goodies/Bloc-n mpk03 Laborex2.jpg",
+    "width": 4000,
+    "height": 3000,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2400
+    ]
+  },
+  {
+    "base": "youth/campagne",
+    "source": "Youth Konnect-Madagascar/viseul social/f-6.png",
+    "width": 1080,
+    "height": 1080,
+    "widths": [
+      480,
+      800,
+      1080
+    ]
+  },
+  {
+    "base": "youth/contexte",
+    "source": "Youth Konnect-Madagascar/Presentation/Youth Connekt-4.png",
+    "width": 2480,
+    "height": 1748,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2400
+    ]
+  },
+  {
+    "base": "youth/accompagnement",
+    "source": "Youth Konnect-Madagascar/Presentation/Youth Connekt-11.png",
+    "width": 2480,
+    "height": 1748,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2400
+    ]
+  },
+  {
+    "base": "youth/reseau-vert",
+    "source": "Youth Konnect-Madagascar/viseul social/b-28.png",
+    "width": 1080,
+    "height": 1080,
+    "widths": [
+      480,
+      800,
+      1080
+    ]
+  },
+  {
+    "base": "youth/reseau-bleu",
+    "source": "Youth Konnect-Madagascar/viseul social/c-23.png",
+    "width": 1080,
+    "height": 1080,
+    "widths": [
+      480,
+      800,
+      1080
+    ]
+  },
+  {
+    "base": "youth/portrait-orange",
+    "source": "Youth Konnect-Madagascar/viseul social/e-9.png",
+    "width": 1080,
+    "height": 1080,
+    "widths": [
+      480,
+      800,
+      1080
+    ]
+  },
+  {
+    "base": "youth/portrait",
+    "source": "Youth Konnect-Madagascar/viseul social/g-1.png",
+    "width": 1080,
+    "height": 1080,
+    "widths": [
+      480,
+      800,
+      1080
+    ]
+  }
+]

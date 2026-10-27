@@ -1,0 +1,154 @@
+[
+  {
+    "base": "coris/ceremonie",
+    "source": "Coris Bank - Burkina & Tchad/Print/Branding Camion.jpg",
+    "width": 5000,
+    "height": 3333,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2400
+    ]
+  },
+  {
+    "base": "coris/soiree",
+    "source": "Coris Bank - Burkina & Tchad/Print/512691169_1332024768278766_2074336431579134314_n.jpg",
+    "width": 2048,
+    "height": 1649,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2048
+    ]
+  },
+  {
+    "base": "coris/fond-scene",
+    "source": "Coris Bank - Burkina & Tchad/Print/Fond de scène2 coris.jpg",
+    "width": 8540,
+    "height": 5669,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2400
+    ]
+  },
+  {
+    "base": "coris/chevalet-accueil",
+    "source": "Coris Bank - Burkina & Tchad/Print/CHEVALET-CO.png",
+    "width": 2500,
+    "height": 2500,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2500
+    ]
+  },
+  {
+    "base": "coris/chevalet-ceremonie",
+    "source": "Coris Bank - Burkina & Tchad/Print/Chevalet-Ceremonie-012.png",
+    "width": 2500,
+    "height": 2500,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2500
+    ]
+  },
+  {
+    "base": "coris/social-epargne",
+    "source": "Coris Bank - Burkina & Tchad/visuel social/2-46.png",
+    "width": 1181,
+    "height": 1181,
+    "widths": [
+      480,
+      800,
+      1181
+    ]
+  },
+  {
+    "base": "coris/social-conference",
+    "source": "Coris Bank - Burkina & Tchad/visuel social/conférence de presse .jpg",
+    "width": 3416,
+    "height": 2270,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2400
+    ]
+  },
+  {
+    "base": "coris/social-digitale",
+    "source": "Coris Bank - Burkina & Tchad/visuel social/7-6.png",
+    "width": 1181,
+    "height": 1181,
+    "widths": [
+      480,
+      800,
+      1181
+    ]
+  },
+  {
+    "base": "canal/chevalet-1",
+    "source": "Canal Plus - Tchad/CANAL+ CHEVALET DE BIENVENUE.jpg",
+    "width": 2500,
+    "height": 2500,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2500
+    ]
+  },
+  {
+    "base": "canal/chevalet-2",
+    "source": "Canal Plus - Tchad/CANAL+ CHEVALET DE BIENVENUE 2.jpg",
+    "width": 2500,
+    "height": 2500,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2500
+    ]
+  },
+  {
+    "base": "canal/chevalet-3",
+    "source": "Canal Plus - Tchad/CANAL+ CHEVALET DE BIENVENUE 3.jpg",
+    "width": 2500,
+    "height": 2500,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2500
+    ]
+  },
+  {
+    "base": "canal/cube",
+    "source": "Canal Plus - Tchad/Cube Canal+.jpg",
+    "width": 5000,
+    "height": 3333,
+    "widths": [
+      480,
+      800,
+      1200,
+      1800,
+      2500
+    ]
+  }
+]
