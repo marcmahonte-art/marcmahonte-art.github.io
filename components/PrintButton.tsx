@@ -1,6 +1,8 @@
 "use client";
 
-export function PrintButton({ label = "Imprimer la fiche" }: { label?: string }) {
+import { ui, type Lang } from "@/data/i18n";
+
+export function PrintButton({ lang = "fr" }: { lang?: Lang }) {
   return (
     <button
       type="button"
@@ -20,7 +22,7 @@ export function PrintButton({ label = "Imprimer la fiche" }: { label?: string })
           strokeWidth="1.2"
         />
       </svg>
-      {label}
+      {ui[lang].print}
     </button>
   );
 }

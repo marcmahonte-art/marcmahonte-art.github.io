@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import { Cta } from "@/components/Cta";
 import { SectionLabel } from "@/components/SectionLabel";
+import { languageAlternates } from "@/data/seo";
 import { reveal } from "@/lib/reveal";
 
 export const metadata: Metadata = {
   title: "Méthode",
   description:
     "Une méthode de travail en sept étapes : brief, cadrage, conception, production, validation, livraison des fichiers sources et archivage.",
-  alternates: {
-    canonical: "/methodologie/",
-  },
+  alternates: languageAlternates("fr", "/methodologie/", "/en/method/"),
   openGraph: {
     title: "Méthode — Jean Marc Mahonté",
     description:

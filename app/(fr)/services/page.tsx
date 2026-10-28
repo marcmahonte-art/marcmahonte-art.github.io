@@ -4,15 +4,14 @@ import { ArrowIcon } from "@/components/ArrowIcon";
 import { ArrowLink, Cta } from "@/components/Cta";
 import { SectionLabel } from "@/components/SectionLabel";
 import { getProject } from "@/data/projects";
+import { languageAlternates } from "@/data/seo";
 import { reveal } from "@/lib/reveal";
 
 export const metadata: Metadata = {
   title: "Services",
   description:
     "Édition institutionnelle, rapports annuels, identité visuelle, campagnes, infographies, communication numérique et direction artistique pour ONG, bailleurs et institutions.",
-  alternates: {
-    canonical: "/services/",
-  },
+  alternates: languageAlternates("fr", "/services/", "/en/services/"),
   openGraph: {
     title: "Services — Jean Marc Mahonté",
     description:

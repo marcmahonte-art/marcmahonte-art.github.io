@@ -1,11 +1,13 @@
 import { AppLink as Link } from "@/components/AppLink";
-import type { Project } from "@/data/projects";
+import type { ProjectView } from "@/data/projectView";
+import { projectHref, ui, type Lang } from "@/data/i18n";
 import { ArrowIcon } from "./ArrowIcon";
 import { ResponsiveImage } from "./ResponsiveImage";
 
 type Props = {
-  project: Project;
+  project: ProjectView;
   index: number;
+  lang?: Lang;
   priority?: boolean;
   className?: string;
   aspect?: "standard" | "wide";
@@ -15,18 +17,19 @@ type Props = {
 export function ProjectCard({
   project,
   index,
+  lang = "fr",
   priority = false,
   className = "",
   aspect = "standard",
   imageIndex = 0,
 }: Props) {
   const cover = project.images[imageIndex] ?? project.images[0];
-  const year = project.year ?? "Année non précisée";
+  const year = project.year ?? ui[lang].card.yearUnknown;
 
   return (
     <article className={className}>
       <Link
-        href={`/projets/${project.slug}/`}
+        href={projectHref(lang, project.slug)}
         className="group block focus-visible:outline-offset-8"
       >
         <div
@@ -39,7 +42,7 @@ export function ProjectCard({
           </span>
           {project.confidential ? (
             <span className="label-mono absolute right-4 top-4 z-10 border border-ink/20 bg-paper px-2 py-1 text-ink/60">
-              Confidentiel
+              {ui[lang].card.confidential}
             </span>
           ) : null}
           <div className="flex h-full w-full items-center justify-center p-5 sm:p-8">

@@ -9,11 +9,12 @@ import { ProjectGallery } from "@/components/ProjectGallery";
 import { ResponsiveImage } from "@/components/ResponsiveImage";
 import { SectionLabel } from "@/components/SectionLabel";
 import {
-  getNextProject,
-  getProject,
-  projects,
-  type Project,
-} from "@/data/projects";
+  getNextProjectEn,
+  getProjectEn,
+  projectsEn,
+  type ProjectEn,
+} from "@/data/projects.en";
+import { languageAlternates } from "@/data/seo";
 import { site } from "@/data/site";
 
 type Props = {
@@ -23,12 +24,12 @@ type Props = {
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return projectsEn.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const project = getProject(slug);
+  const project = getProjectEn(slug);
 
   if (!project) return {};
 
@@ -40,14 +41,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: project.title,
     description: project.summary,
-    alternates: {
-      canonical: `/projets/${project.slug}/`,
-    },
+    alternates: languageAlternates(
+      "en",
+      `/projets/${project.slug}/`,
+      `/en/projects/${project.slug}/`,
+    ),
     openGraph: {
       type: "article",
+      locale: "en_GB",
       title: `${project.title} — Jean Marc Mahonté`,
       description: project.summary,
-      url: `/projets/${project.slug}/`,
+      url: `/en/projects/${project.slug}/`,
       images: [
         {
           url: coverUrl,
@@ -68,16 +72,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const verificationStyles = {
   confirmé: {
-    label: "Rôle confirmé",
+    label: "Role confirmed",
     className: "text-teal-deep",
     dot: "bg-teal",
-    copy: "Collaboration et rôle confirmés par les sources du dossier ou par Jean Marc Mahonté.",
+    copy: "Collaboration and role confirmed by the source materials or by Jean Marc Mahonté.",
   },
   documenté: {
-    label: "Projet documenté",
+    label: "Project documented",
     className: "text-slate",
     dot: "bg-slate",
-    copy: "Projet documenté à partir des supports de production fournis.",
+    copy: "Project documented from the production materials supplied.",
   },
 } as const;
 
@@ -110,20 +114,20 @@ function Section({
   );
 }
 
-function ProjectJsonLd({ project }: { project: Project }) {
+function ProjectJsonLd({ project }: { project: ProjectEn }) {
   const data = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: project.title,
     description: project.summary,
-    url: `${site.url}/projets/${project.slug}/`,
+    url: `${site.url}/en/projects/${project.slug}/`,
     creator: {
       "@type": "Person",
       name: site.name,
       url: site.url,
     },
     about: project.sector,
-    inLanguage: "fr",
+    inLanguage: "en",
     keywords: project.categories.join(", "),
     ...(project.year ? { dateCreated: project.year } : {}),
   };
@@ -138,30 +142,30 @@ function ProjectJsonLd({ project }: { project: Project }) {
   );
 }
 
-export default async function ProjectPage({ params }: Props) {
+export default async function EnglishProjectPage({ params }: Props) {
   const { slug } = await params;
-  const project = getProject(slug);
+  const project = getProjectEn(slug);
 
   if (!project) notFound();
 
   const cover = project.images[0];
   const galleryImages = project.images.slice(1);
-  const nextProject = getNextProject(project.slug);
+  const nextProject = getNextProjectEn(project.slug);
   const verification = verificationStyles[project.verification];
   const indexLabel = String(project.order).padStart(2, "0");
-  const totalLabel = String(projects.length).padStart(2, "0");
+  const totalLabel = String(projectsEn.length).padStart(2, "0");
 
   const sections = [
-    { id: "contexte", label: "Contexte" },
-    { id: "objectif", label: "Objectif" },
-    { id: "role", label: "Rôle" },
-    { id: "livrables", label: "Livrables" },
-    { id: "contraintes", label: "Contraintes" },
-    { id: "approche", label: "Approche" },
+    { id: "context", label: "Context" },
+    { id: "objective", label: "Objective" },
+    { id: "role", label: "Role" },
+    { id: "deliverables", label: "Deliverables" },
+    { id: "constraints", label: "Constraints" },
+    { id: "approach", label: "Approach" },
     ...(galleryImages.length > 0
-      ? [{ id: "visuels", label: "Visuels" }]
+      ? [{ id: "visuals", label: "Visuals" }]
       : []),
-    { id: "sources", label: "Sources & limites" },
+    { id: "sources", label: "Sources & limitations" },
   ];
 
   return (
@@ -169,19 +173,22 @@ export default async function ProjectPage({ params }: Props) {
       <ProjectJsonLd project={project} />
 
       <div className="shell pt-8">
-        <nav aria-label="Fil d’Ariane" className="label-mono text-slate">
+        <nav aria-label="Breadcrumb" className="label-mono text-slate">
           <ol className="flex flex-wrap items-center gap-2">
             <li>
-              <Link href="/" className="transition-colors hover:text-ink">
-                Accueil
+              <Link href="/en/" className="transition-colors hover:text-ink">
+                Home
               </Link>
             </li>
             <li aria-hidden="true" className="text-ink/25">
               /
             </li>
             <li>
-              <Link href="/projets/" className="transition-colors hover:text-ink">
-                Projets
+              <Link
+                href="/en/projects/"
+                className="transition-colors hover:text-ink"
+              >
+                Projects
               </Link>
             </li>
             <li aria-hidden="true" className="text-ink/25">
@@ -198,7 +205,7 @@ export default async function ProjectPage({ params }: Props) {
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-8">
             <SectionLabel index={`${indexLabel} / ${totalLabel}`}>
-              Étude de cas
+              Case study
             </SectionLabel>
             <h1 className="display mt-7 max-w-[16ch] text-[clamp(2.6rem,5.6vw,4.9rem)]">
               {project.title}
@@ -223,21 +230,21 @@ export default async function ProjectPage({ params }: Props) {
                 </dd>
               </div>
               <div className="grid grid-cols-[7rem_1fr] gap-4 border-b border-line py-3.5">
-                <dt className="label-mono pt-0.5 text-slate">Année</dt>
+                <dt className="label-mono pt-0.5 text-slate">Year</dt>
                 <dd className="text-sm text-ink">
-                  {project.year ?? "Non précisée dans les sources"}
+                  {project.year ?? "Not specified in the sources"}
                 </dd>
               </div>
               <div className="grid grid-cols-[7rem_1fr] gap-4 border-b border-line py-3.5">
-                <dt className="label-mono pt-0.5 text-slate">Lieu</dt>
+                <dt className="label-mono pt-0.5 text-slate">Location</dt>
                 <dd className="text-sm text-ink">{project.location}</dd>
               </div>
               <div className="grid grid-cols-[7rem_1fr] gap-4 border-b border-line py-3.5">
-                <dt className="label-mono pt-0.5 text-slate">Secteur</dt>
+                <dt className="label-mono pt-0.5 text-slate">Sector</dt>
                 <dd className="text-sm text-ink">{project.sector}</dd>
               </div>
               <div className="grid grid-cols-[7rem_1fr] gap-4 border-b border-line py-3.5">
-                <dt className="label-mono pt-0.5 text-slate">Statut</dt>
+                <dt className="label-mono pt-0.5 text-slate">Status</dt>
                 <dd
                   className={`flex items-start gap-2 text-sm ${verification.className}`}
                 >
@@ -256,9 +263,9 @@ export default async function ProjectPage({ params }: Props) {
             </dl>
 
             <div className="mt-5 flex flex-wrap items-center gap-3">
-              <PrintButton />
-              <ArrowLink href="/contact" className="text-xs">
-                Parler d’un projet similaire
+              <PrintButton lang="en" />
+              <ArrowLink href="/en/contact" className="text-xs">
+                Discuss a similar project
               </ArrowLink>
             </div>
           </aside>
@@ -287,9 +294,9 @@ export default async function ProjectPage({ params }: Props) {
         <aside className="hidden lg:col-span-3 lg:block">
           <div className="sticky top-28">
             <p className="label-mono border-b border-line pb-3 text-slate">
-              Sommaire
+              Contents
             </p>
-            <nav aria-label="Sommaire de l’étude de cas">
+            <nav aria-label="Case study contents">
               <ol className="mt-4 flex flex-col gap-2.5">
                 {sections.map((section, index) => (
                   <li key={section.id}>
@@ -311,7 +318,7 @@ export default async function ProjectPage({ params }: Props) {
               download
               className="mt-8 inline-flex items-center gap-2 border border-ink/20 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-slate transition-colors hover:border-ink hover:text-ink"
             >
-              CV (PDF)
+              CV (PDF, French)
               <ArrowIcon direction="down" />
             </a>
           </div>
@@ -326,31 +333,35 @@ export default async function ProjectPage({ params }: Props) {
 
           {project.confidential ? (
             <div className="mb-10 border-l-2 border-ink bg-ink/[0.04] p-5">
-              <p className="label-mono text-ink">Projet confidentiel</p>
+              <p className="label-mono text-ink">Confidential project</p>
               <p className="mt-2 max-w-[62ch] text-sm leading-relaxed text-ink/75">
-                Le dossier source est marqué confidentiel par l’organisation.
-                Seule la couverture publique est reproduite ; les pages
-                internes, la structure et les données ne sont pas publiées.
-                Toute diffusion doit être validée avec le client.
+                The source file is marked confidential by the organisation.
+                Only the public cover is reproduced; internal pages, structure
+                and data are not published. Any distribution must be approved
+                by the client.
               </p>
             </div>
           ) : null}
 
-          <Section id="contexte" index="01" title="Contexte">
+          <Section id="context" index="01" title="Context">
             <p className="prose-editorial max-w-[62ch]">{project.context}</p>
           </Section>
 
-          <Section id="objectif" index="02" title="Objectif de communication">
+          <Section
+            id="objective"
+            index="02"
+            title="Communication objective"
+          >
             <p className="max-w-[56ch] font-display text-[1.25rem] font-normal leading-snug tracking-[-0.01em] text-ink sm:text-[1.4rem]">
               {project.objective}
             </p>
           </Section>
 
-          <Section id="role" index="03" title="Rôle">
+          <Section id="role" index="03" title="Role">
             <p className="prose-editorial max-w-[62ch]">{project.role}</p>
           </Section>
 
-          <Section id="livrables" index="04" title="Livrables">
+          <Section id="deliverables" index="04" title="Deliverables">
             <ul className="border-t border-line">
               {project.deliverables.map((deliverable, index) => (
                 <li
@@ -366,7 +377,7 @@ export default async function ProjectPage({ params }: Props) {
             </ul>
           </Section>
 
-          <Section id="contraintes" index="05" title="Contraintes">
+          <Section id="constraints" index="05" title="Constraints">
             <ul className="grid gap-3 sm:grid-cols-2">
               {project.constraints.map((constraint) => (
                 <li
@@ -383,7 +394,7 @@ export default async function ProjectPage({ params }: Props) {
             </ul>
           </Section>
 
-          <Section id="approche" index="06" title="Approche">
+          <Section id="approach" index="06" title="Approach">
             <ol className="flex flex-col gap-5">
               {project.approach.map((step, index) => (
                 <li
@@ -403,7 +414,7 @@ export default async function ProjectPage({ params }: Props) {
 
           {galleryImages.length > 0 ? (
             <section
-              id="visuels"
+              id="visuals"
               className="scroll-mt-28 border-t border-line py-10"
             >
               <div className="grid gap-5 sm:grid-cols-[3.25rem_1fr]">
@@ -411,20 +422,21 @@ export default async function ProjectPage({ params }: Props) {
                 <div>
                   <div className="flex flex-wrap items-end justify-between gap-4">
                     <h2 className="font-display text-[1.5rem] font-semibold leading-tight tracking-[-0.02em] text-ink sm:text-[1.7rem]">
-                      Visuels de production
+                      Production visuals
                     </h2>
                     <p className="label-mono text-slate">
-                      {String(project.images.length).padStart(2, "0")} visuels
+                      {String(project.images.length).padStart(2, "0")} visuals
                     </p>
                   </div>
                   <p className="mt-3 max-w-[58ch] text-sm leading-relaxed text-slate">
-                    Cliquez sur un visuel pour l’agrandir. Les images sont
-                    reproduites sans modification de leur composition.
+                    Click a visual to enlarge it. Images are reproduced without
+                    changing their composition.
                   </p>
                   <div className="mt-8">
                     <ProjectGallery
                       images={project.images}
                       projectTitle={project.title}
+                      lang="en"
                     />
                   </div>
                 </div>
@@ -440,21 +452,20 @@ export default async function ProjectPage({ params }: Props) {
               <span className="label-mono pt-1.5 text-ink/30">08</span>
               <div>
                 <h2 className="font-display text-[1.5rem] font-semibold leading-tight tracking-[-0.02em] text-ink sm:text-[1.7rem]">
-                  Sources & limites
+                  Sources & limitations
                 </h2>
                 <div className="mt-4 space-y-4 text-sm leading-relaxed text-slate">
                   <p className="max-w-[64ch]">
-                    Cette étude de cas est établie à partir des supports et
-                    fichiers présents dans le dossier professionnel de Jean
-                    Marc Mahonté. Aucun résultat quantitatif, témoignage ou
-                    donnée d’impact n’est publié : ces éléments ne sont pas
-                    documentés dans les sources disponibles.
+                    This case study is based on the materials and files in Jean
+                    Marc Mahonté’s professional folder. No quantitative
+                    results, testimonials or impact data are published: these
+                    elements are not documented in the available sources.
                   </p>
                   <p className="max-w-[64ch]">{project.rightsNote}</p>
                   <p className="max-w-[64ch]">
-                    Les noms et marques cités le sont à titre de références
-                    professionnelles. Leur mention n’implique aucune
-                    approbation officielle des organisations concernées.
+                    Names and brands are cited as professional references.
+                    Their mention does not imply any official endorsement by
+                    the organisations concerned.
                   </p>
                 </div>
               </div>
@@ -465,7 +476,7 @@ export default async function ProjectPage({ params }: Props) {
 
       <section className="border-t border-line bg-paper-deep/50">
         <Link
-          href={`/projets/${nextProject.slug}/`}
+          href={`/en/projects/${nextProject.slug}/`}
           className="group shell grid gap-8 py-12 md:py-16 lg:grid-cols-12 lg:items-center"
         >
           <div className="lg:col-span-4">
@@ -478,7 +489,7 @@ export default async function ProjectPage({ params }: Props) {
             </div>
           </div>
           <div className="lg:col-span-8">
-            <p className="label-mono text-slate">Projet suivant</p>
+            <p className="label-mono text-slate">Next project</p>
             <div className="mt-4 flex items-start justify-between gap-6">
               <h2 className="display max-w-[18ch] text-[clamp(2rem,4.2vw,3.4rem)] transition-colors duration-300 group-hover:text-teal-deep">
                 {nextProject.title}

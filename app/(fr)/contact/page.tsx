@@ -3,15 +3,14 @@ import { ArrowIcon } from "@/components/ArrowIcon";
 import { ArrowLink } from "@/components/Cta";
 import { ContactForm } from "@/components/ContactForm";
 import { SectionLabel } from "@/components/SectionLabel";
+import { languageAlternates } from "@/data/seo";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "Contact",
   description:
     "Contacter Jean Marc Mahonté, graphiste senior et directeur créatif indépendant à Ouagadougou, pour un rapport, une identité visuelle, une campagne ou une direction artistique.",
-  alternates: {
-    canonical: "/contact/",
-  },
+  alternates: languageAlternates("fr", "/contact/", "/en/contact/"),
   openGraph: {
     title: "Contact — Jean Marc Mahonté",
     description:

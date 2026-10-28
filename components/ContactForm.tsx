@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { ui, type Lang } from "@/data/i18n";
 import { site } from "@/data/site";
 import { ArrowIcon } from "./ArrowIcon";
 
@@ -22,40 +23,33 @@ const initialValues: Fields = {
   message: "",
 };
 
-const projectTypes = [
-  "Rapport annuel ou publication",
-  "Identité visuelle ou charte",
-  "Campagne ou sensibilisation",
-  "Communication institutionnelle",
-  "Direction artistique ou renfort d’agence",
-  "Autre demande",
-];
-
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-function validate(values: Fields): Errors {
+function validate(values: Fields, lang: Lang): Errors {
   const errors: Errors = {};
+  const copy = ui[lang].contactForm.errors;
 
   if (values.name.trim().length < 2) {
-    errors.name = "Indiquez votre nom (2 caractères minimum).";
+    errors.name = copy.name;
   }
 
   if (!emailPattern.test(values.email.trim())) {
-    errors.email = "Indiquez une adresse e-mail valide.";
+    errors.email = copy.email;
   }
 
   if (!values.projectType) {
-    errors.projectType = "Choisissez le type de projet.";
+    errors.projectType = copy.projectType;
   }
 
   if (values.message.trim().length < 20) {
-    errors.message = "Décrivez votre demande en 20 caractères minimum.";
+    errors.message = copy.message;
   }
 
   return errors;
 }
 
-export function ContactForm() {
+export function ContactForm({ lang = "fr" }: { lang?: Lang }) {
+  const copy = ui[lang].contactForm;
   const [values, setValues] = useState<Fields>(initialValues);
   const [errors, setErrors] = useState<Errors>({});
   const [mailtoHref, setMailtoHref] = useState<string | null>(null);
@@ -72,7 +66,7 @@ export function ContactForm() {
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const nextErrors = validate(values);
+    const nextErrors = validate(values, lang);
     setErrors(nextErrors);
 
     const errorFields = Object.keys(nextErrors) as (keyof Fields)[];
@@ -81,14 +75,16 @@ export function ContactForm() {
       return;
     }
 
-    const subject = `Demande de collaboration — ${values.projectType}`;
+    const subject = `${copy.subject}${values.projectType}`;
     const body = [
-      `Nom : ${values.name.trim()}`,
-      `Organisation : ${values.organisation.trim() || "Non précisée"}`,
-      `E-mail : ${values.email.trim()}`,
-      `Type de projet : ${values.projectType}`,
+      `${copy.labels.name}: ${values.name.trim()}`,
+      `${copy.labels.organisation}: ${
+        values.organisation.trim() || copy.labels.unspecified
+      }`,
+      `${copy.labels.email}: ${values.email.trim()}`,
+      `${copy.labels.projectType}: ${values.projectType}`,
       "",
-      "Message :",
+      `${copy.labels.message}:`,
       values.message.trim(),
     ].join("\n");
 
@@ -103,11 +99,9 @@ export function ContactForm() {
   return (
     <div>
       <div className="border-l-2 border-ochre bg-paper-deep/70 px-5 py-4">
-        <p className="label-mono text-ink/55">Comment fonctionne ce formulaire</p>
+        <p className="label-mono text-ink/55">{copy.howTitle}</p>
         <p className="mt-2 text-sm leading-relaxed text-slate">
-          Ce site n’a pas de serveur d’envoi. Le formulaire prépare un e-mail
-          dans votre logiciel de messagerie. Aucune donnée n’est stockée ni
-          transmise à un service tiers par ce site.
+          {copy.howBody}
         </p>
       </div>
 
@@ -118,7 +112,7 @@ export function ContactForm() {
         className="mt-8 grid gap-6 sm:grid-cols-2"
       >
         <div className="field">
-          <label htmlFor="contact-name">Nom et prénom *</label>
+          <label htmlFor="contact-name">{copy.name}</label>
           <input
             id="contact-name"
             name="name"
@@ -139,7 +133,10 @@ export function ContactForm() {
 
         <div className="field">
           <label htmlFor="contact-organisation">
-            Organisation <span className="normal-case tracking-normal">(facultatif)</span>
+            {copy.organisation}{" "}
+            <span className="normal-case tracking-normal">
+              {copy.optional}
+            </span>
           </label>
           <input
             id="contact-organisation"
@@ -152,7 +149,7 @@ export function ContactForm() {
         </div>
 
         <div className="field">
-          <label htmlFor="contact-email">E-mail *</label>
+          <label htmlFor="contact-email">{copy.email}</label>
           <input
             id="contact-email"
             name="email"
@@ -173,7 +170,7 @@ export function ContactForm() {
         </div>
 
         <div className="field">
-          <label htmlFor="contact-projectType">Type de projet *</label>
+          <label htmlFor="contact-projectType">{copy.projectType}</label>
           <select
             id="contact-projectType"
             name="projectType"
@@ -186,9 +183,9 @@ export function ContactForm() {
             required
           >
             <option value="" disabled>
-              Choisir…
+              {copy.choose}
             </option>
-            {projectTypes.map((type) => (
+            {copy.types.map((type) => (
               <option key={type} value={type}>
                 {type}
               </option>
@@ -206,7 +203,7 @@ export function ContactForm() {
         </div>
 
         <div className="field sm:col-span-2">
-          <label htmlFor="contact-message">Votre demande *</label>
+          <label htmlFor="contact-message">{copy.message}</label>
           <textarea
             id="contact-message"
             name="message"
@@ -220,8 +217,7 @@ export function ContactForm() {
             required
           />
           <p id="contact-message-hint" className="mt-1 text-xs text-slate">
-            Contexte, commanditaire, échéance, volume et contraintes : plus le
-            brief est précis, plus la réponse sera utile.
+            {copy.messageHint}
           </p>
           {errors.message ? (
             <p id="contact-message-error" className="field-error" role="alert">
@@ -230,14 +226,12 @@ export function ContactForm() {
           ) : null}
         </div>
 
-        <div className="sm:col-span-2 flex flex-col gap-5 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-5 border-t border-line pt-6 sm:col-span-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="max-w-md text-xs leading-relaxed text-slate">
-            En utilisant ce formulaire, vous ouvrez votre messagerie. Aucun
-            message n’est envoyé tant que vous ne validez pas vous-même
-            l’e-mail.
+            {copy.privacy}
           </p>
           <button type="submit" className="btn btn-primary shrink-0">
-            Préparer l’e-mail
+            {copy.submit}
             <ArrowIcon />
           </button>
         </div>
@@ -246,11 +240,9 @@ export function ContactForm() {
       <div aria-live="polite" aria-atomic="true">
         {mailtoHref ? (
           <div className="mt-8 border border-teal-deep/30 bg-teal-deep/[0.06] p-5">
-            <p className="label-mono text-teal-deep">Message préparé</p>
+            <p className="label-mono text-teal-deep">{copy.prepared}</p>
             <p className="mt-3 text-sm leading-relaxed text-ink/75">
-              Votre messagerie devrait s’ouvrir avec le message prérempli.
-              Aucun envoi n’a été effectué par ce site. Si rien ne s’est
-              ouvert, utilisez le lien ci-dessous ou écrivez directement à{" "}
+              {copy.preparedBody}{" "}
               <a
                 href={`mailto:${site.email}`}
                 className="font-medium text-teal-deep underline underline-offset-2"
@@ -263,7 +255,7 @@ export function ContactForm() {
               href={mailtoHref}
               className="mt-4 inline-flex items-center gap-2 border border-teal-deep px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-teal-deep transition-colors hover:bg-teal-deep hover:text-paper"
             >
-              Ouvrir le message dans ma messagerie
+              {copy.open}
               <ArrowIcon />
             </a>
           </div>

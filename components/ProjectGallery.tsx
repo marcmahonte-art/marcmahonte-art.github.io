@@ -2,15 +2,22 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { ProjectImage } from "@/data/projects";
+import { ui, type Lang } from "@/data/i18n";
 import { ArrowIcon } from "./ArrowIcon";
 import { ResponsiveImage } from "./ResponsiveImage";
 
 type Props = {
   images: ProjectImage[];
   projectTitle: string;
+  lang?: Lang;
 };
 
-export function ProjectGallery({ images, projectTitle }: Props) {
+export function ProjectGallery({
+  images,
+  projectTitle,
+  lang = "fr",
+}: Props) {
+  const copy = ui[lang].gallery;
   const [active, setActive] = useState<number | null>(null);
   const lastTrigger = useRef<HTMLButtonElement | null>(null);
   const closeRef = useRef<HTMLButtonElement | null>(null);
@@ -100,7 +107,7 @@ export function ProjectGallery({ images, projectTitle }: Props) {
                 lastTrigger.current = event.currentTarget;
                 setActive(index);
               }}
-              aria-label={`Agrandir le visuel : ${image.caption}`}
+              aria-label={copy.enlargeAria(image.caption)}
               className="group frame block w-full cursor-zoom-in p-4 text-left sm:p-6"
             >
               <ResponsiveImage
@@ -117,7 +124,7 @@ export function ProjectGallery({ images, projectTitle }: Props) {
             <figcaption className="mt-3 flex items-start justify-between gap-4 text-xs leading-relaxed text-slate">
               <span>{image.caption}</span>
               <span className="mt-0.5 flex shrink-0 items-center gap-1 font-mono text-[10px] uppercase tracking-[0.12em] text-ink/35">
-                Agrandir
+                {copy.enlarge}
                 <ArrowIcon className="h-2.5 w-2.5" />
               </span>
             </figcaption>
@@ -130,7 +137,7 @@ export function ProjectGallery({ images, projectTitle }: Props) {
           ref={dialogRef}
           role="dialog"
           aria-modal="true"
-          aria-label={`Galerie du projet ${projectTitle}`}
+          aria-label={copy.dialog(projectTitle)}
           data-print-hidden
           className="on-dark fixed inset-0 z-[90] flex flex-col bg-ink/[0.97] text-paper"
           onClick={(event) => {
@@ -148,7 +155,7 @@ export function ProjectGallery({ images, projectTitle }: Props) {
               onClick={close}
               className="inline-flex items-center gap-2 border border-paper/30 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.12em] text-paper transition-colors hover:bg-paper hover:text-ink"
             >
-              Fermer
+              {copy.close}
               <span aria-hidden="true" className="relative block h-3.5 w-3.5">
                 <span className="absolute left-0 top-1/2 h-px w-full rotate-45 bg-current" />
                 <span className="absolute left-0 top-1/2 h-px w-full -rotate-45 bg-current" />
@@ -166,7 +173,7 @@ export function ProjectGallery({ images, projectTitle }: Props) {
                       ((currentIndex ?? 0) - 1 + images.length) % images.length,
                   )
                 }
-                aria-label="Visuel précédent"
+                aria-label={copy.previous}
                 className="grid h-11 w-11 shrink-0 place-items-center border border-paper/25 text-paper transition-colors hover:bg-paper hover:text-ink"
               >
                 <ArrowIcon direction="left" />
@@ -192,7 +199,7 @@ export function ProjectGallery({ images, projectTitle }: Props) {
                       ((currentIndex ?? 0) + 1) % images.length,
                   )
                 }
-                aria-label="Visuel suivant"
+                aria-label={copy.next}
                 className="grid h-11 w-11 shrink-0 place-items-center border border-paper/25 text-paper transition-colors hover:bg-paper hover:text-ink"
               >
                 <ArrowIcon direction="right" />

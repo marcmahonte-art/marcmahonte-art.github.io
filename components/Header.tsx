@@ -1,20 +1,64 @@
 "use client";
 
 import { AppLink as Link } from "@/components/AppLink";
+import { navByLang, ui, languagePaths, type Lang } from "@/data/i18n";
+import { site } from "@/data/site";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { site } from "@/data/site";
 import { ArrowIcon } from "./ArrowIcon";
 import { Logo } from "./Logo";
 
-const desktopNav = site.nav.filter((item) => item.href !== "/contact");
+const normalize = (path: string) =>
+  path.length > 1 ? path.replace(/\/+$/, "") : path;
 
-export function Header() {
+function LanguageSwitch({ lang, light = false }: { lang: Lang; light?: boolean }) {
+  const pathname = usePathname();
+  const paths = languagePaths(pathname);
+  const linkClass = light
+    ? "text-paper/55 transition-colors hover:text-paper"
+    : "text-ink/40 transition-colors hover:text-ink";
+  const currentClass = light ? "text-paper" : "text-ink";
+
+  return (
+    <nav
+      aria-label={ui[lang].header.language}
+      className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.14em]"
+    >
+      <Link
+        href={paths.fr}
+        hrefLang="fr"
+        aria-current={lang === "fr" ? "page" : undefined}
+        className={lang === "fr" ? currentClass : linkClass}
+      >
+        FR
+      </Link>
+      <span aria-hidden="true" className={linkClass}>
+        /
+      </span>
+      <Link
+        href={paths.en}
+        hrefLang="en"
+        aria-current={lang === "en" ? "page" : undefined}
+        className={lang === "en" ? currentClass : linkClass}
+      >
+        EN
+      </Link>
+    </nav>
+  );
+}
+
+export function Header({ lang }: { lang: Lang }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const wasOpen = useRef(false);
+  const copy = ui[lang].header;
+  const nav = navByLang[lang];
+  const desktopNav = nav.filter(
+    (item) => item.href !== "/contact" && item.href !== "/en/contact",
+  );
+  const contactHref = lang === "en" ? "/en/contact" : "/contact";
 
   useEffect(() => {
     setOpen(false);
@@ -77,15 +121,19 @@ export function Header() {
     triggerRef.current?.focus({ preventScroll: true });
   }, [open]);
 
-  const isActive = (href: string) =>
-    href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const isActive = (href: string) => {
+    const current = normalize(pathname);
+    const target = normalize(href);
+    if (target === "/" || target === "/en") return current === target;
+    return current === target || current.startsWith(`${target}/`);
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-ink/10 bg-paper">
       <div className="shell flex h-[76px] items-center justify-between gap-6">
-        <Logo />
+        <Logo lang={lang} />
 
-        <nav aria-label="Navigation principale" className="hidden lg:block">
+        <nav aria-label={copy.mainNav} className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {desktopNav.map((item) => (
               <li key={item.href}>
@@ -112,11 +160,15 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <div className="hidden sm:block">
+            <LanguageSwitch lang={lang} />
+          </div>
+
           <Link
-            href="/contact"
+            href={contactHref}
             className="hidden items-center gap-2.5 border border-ink/20 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink transition-colors duration-300 hover:border-ink hover:bg-ink hover:text-paper sm:inline-flex"
           >
-            Me contacter
+            {copy.contact}
             <ArrowIcon />
           </Link>
 
@@ -128,7 +180,7 @@ export function Header() {
             onClick={() => setOpen(true)}
             className="inline-flex items-center gap-2.5 border border-ink/20 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink transition-colors duration-300 hover:border-ink lg:hidden"
           >
-            Menu
+            {copy.menu}
             <span aria-hidden="true" className="flex w-4 flex-col gap-[4px]">
               <span className="h-px w-full bg-current" />
               <span className="h-px w-full bg-current" />
@@ -143,19 +195,19 @@ export function Header() {
           id="menu-mobile"
           role="dialog"
           aria-modal="true"
-          aria-label="Menu principal"
+          aria-label={copy.menuLabel}
           className="fixed inset-0 z-[60] overflow-y-auto bg-paper lg:hidden"
         >
           <div className="shell flex min-h-[100svh] flex-col pb-8 pt-5">
             <div className="flex items-center justify-between">
-              <Logo />
+              <Logo lang={lang} />
               <button
                 type="button"
                 data-mobile-first
                 onClick={() => setOpen(false)}
                 className="inline-flex items-center gap-2.5 border border-ink/20 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.14em] text-ink"
               >
-                Fermer
+                {copy.close}
                 <span aria-hidden="true" className="relative block h-4 w-4">
                   <span className="absolute left-0 top-1/2 h-px w-full rotate-45 bg-current" />
                   <span className="absolute left-0 top-1/2 h-px w-full -rotate-45 bg-current" />
@@ -163,9 +215,9 @@ export function Header() {
               </button>
             </div>
 
-            <nav aria-label="Navigation mobile" className="mt-10">
+            <nav aria-label={copy.mobileNav} className="mt-10">
               <ul className="border-t border-line">
-                {site.nav.map((item, index) => (
+                {nav.map((item, index) => (
                   <li key={item.href} className="border-b border-line">
                     <Link
                       href={item.href}
@@ -188,14 +240,23 @@ export function Header() {
             </nav>
 
             <div className="mt-auto pt-12">
-              <p className="label-mono text-slate">Contact direct</p>
+              <div className="mb-8">
+                <LanguageSwitch lang={lang} />
+              </div>
+              <p className="label-mono text-slate">
+                {lang === "en" ? "Direct contact" : "Contact direct"}
+              </p>
               <a
                 href={`mailto:${site.email}`}
                 className="mt-3 block font-display text-xl text-ink underline decoration-line underline-offset-4"
               >
                 {site.email}
               </a>
-              <p className="mt-2 text-sm text-slate">{site.location}</p>
+              <p className="mt-2 text-sm text-slate">
+                {lang === "en"
+                  ? "Ouagadougou, Burkina Faso"
+                  : "Ouagadougou, Burkina Faso"}
+              </p>
               <div className="mt-6 flex flex-wrap gap-2">
                 {site.phones.map((phone) => (
                   <a

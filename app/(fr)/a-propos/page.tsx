@@ -4,15 +4,14 @@ import { ArrowLink } from "@/components/Cta";
 import { ResponsiveImage } from "@/components/ResponsiveImage";
 import { SectionLabel } from "@/components/SectionLabel";
 import { portrait } from "@/data/media";
+import { languageAlternates } from "@/data/seo";
 import { site } from "@/data/site";
 
 export const metadata: Metadata = {
   title: "À propos",
   description:
     "Parcours, expertise et méthode de Jean Marc Mahonté, graphiste senior et directeur créatif indépendant à Ouagadougou, plus de onze ans d’expérience en communication visuelle institutionnelle.",
-  alternates: {
-    canonical: "/a-propos/",
-  },
+  alternates: languageAlternates("fr", "/a-propos/", "/en/about/"),
   openGraph: {
     title: "À propos — Jean Marc Mahonté",
     description:

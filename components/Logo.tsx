@@ -1,17 +1,24 @@
 import { AppLink as Link } from "@/components/AppLink";
+import type { Lang } from "@/data/i18n";
+import { siteContent } from "@/data/i18n";
 
 type Props = {
   tone?: "dark" | "light";
   compact?: boolean;
+  lang?: Lang;
 };
 
-export function Logo({ tone = "dark", compact = false }: Props) {
+export function Logo({ tone = "dark", compact = false, lang = "fr" }: Props) {
   const isLight = tone === "light";
 
   return (
     <Link
-      href="/"
-      aria-label="Jean Marc Mahonté — retour à l’accueil"
+      href={lang === "en" ? "/en/" : "/"}
+      aria-label={
+        lang === "en"
+          ? "Jean Marc Mahonté — back to home"
+          : "Jean Marc Mahonté — retour à l’accueil"
+      }
       className="group inline-flex items-center gap-3"
     >
       <span
@@ -38,7 +45,7 @@ export function Logo({ tone = "dark", compact = false }: Props) {
             isLight ? "text-paper/55" : "text-slate"
           }`}
         >
-          Graphiste senior · Directeur créatif
+          {lang === "en" ? "Senior graphic designer · Creative director" : "Graphiste senior · Directeur créatif"}
         </span>
       </span>
     </Link>

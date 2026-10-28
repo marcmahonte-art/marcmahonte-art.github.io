@@ -4,26 +4,46 @@ import { site } from "@/data/site";
 
 export const dynamic = "force-static";
 
+type Route = {
+  fr: string;
+  en: string;
+  priority: number;
+};
+
+const staticRoutes: Route[] = [
+  { fr: "/", en: "/en/", priority: 1 },
+  { fr: "/projets/", en: "/en/projects/", priority: 0.9 },
+  { fr: "/a-propos/", en: "/en/about/", priority: 0.8 },
+  { fr: "/services/", en: "/en/services/", priority: 0.8 },
+  { fr: "/methodologie/", en: "/en/method/", priority: 0.7 },
+  { fr: "/references/", en: "/en/references/", priority: 0.7 },
+  { fr: "/contact/", en: "/en/contact/", priority: 0.8 },
+];
+
+const projectRoutes: Route[] = projects.map((project) => ({
+  fr: `/projets/${project.slug}/`,
+  en: `/en/projects/${project.slug}/`,
+  priority: 0.8,
+}));
+
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes: { path: string; priority: number }[] = [
-    { path: "/", priority: 1 },
-    { path: "/projets/", priority: 0.9 },
-    { path: "/a-propos/", priority: 0.8 },
-    { path: "/services/", priority: 0.8 },
-    { path: "/methodologie/", priority: 0.7 },
-    { path: "/references/", priority: 0.7 },
-    { path: "/contact/", priority: 0.8 },
-  ];
+  const routes = [...staticRoutes, ...projectRoutes];
 
-  const projectRoutes = projects.map((project) => ({
-    path: `/projets/${project.slug}/`,
-    priority: 0.8,
-  }));
+  return routes.flatMap((route) => {
+    const alternates = {
+      languages: {
+        fr: `${site.url}${route.fr}`,
+        en: `${site.url}${route.en}`,
+        "x-default": `${site.url}${route.fr}`,
+      },
+    };
 
-  return [...staticRoutes, ...projectRoutes].map((route) => ({
-    url: `${site.url}${route.path}`,
-    lastModified: new Date(),
-    changeFrequency: "monthly" as const,
-    priority: route.priority,
-  }));
+    return [route.fr, route.en].map((path) => ({
+      url: `${site.url}${path}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: route.priority,
+      alternates,
+    }));
+  });
 }

@@ -1,41 +1,52 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import {
-  categories,
-  projects,
-  type Category,
-} from "@/data/projects";
+import { categories, projects } from "@/data/projects";
+import { categoriesEn, projectsEn } from "@/data/projects.en";
+import type { ProjectView } from "@/data/projectView";
+import { ui, type Lang } from "@/data/i18n";
 import { ProjectCard } from "./ProjectCard";
 
-export function ProjectsExplorer() {
-  const [active, setActive] = useState<Category | null>(null);
+export function ProjectsExplorer({ lang = "fr" }: { lang?: Lang }) {
+  const [active, setActive] = useState<string | null>(null);
+  const copy = ui[lang].explorer;
+
+  const data = useMemo<{
+    projects: ProjectView[];
+    categories: readonly string[];
+  }>(
+    () =>
+      lang === "en"
+        ? { projects: projectsEn, categories: categoriesEn }
+        : { projects, categories },
+    [lang],
+  );
 
   const filtered = useMemo(
     () =>
       active
-        ? projects.filter((project) => project.categories.includes(active))
-        : projects,
-    [active],
+        ? data.projects.filter((project) =>
+            project.categories.includes(active),
+          )
+        : data.projects,
+    [active, data.projects],
   );
 
-  const countLabel = `${filtered.length} projet${
-    filtered.length > 1 ? "s" : ""
-  } affiché${filtered.length > 1 ? "s" : ""}${
+  const countLabel = `${copy.count(filtered.length)}${
     active ? ` — ${active}` : ""
   }`;
 
   return (
     <section aria-labelledby="explorateur-titre">
       <h2 id="explorateur-titre" className="sr-only">
-        Explorer les projets
+        {copy.title}
       </h2>
 
       <div className="border-y border-line py-5">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div
             role="group"
-            aria-label="Filtrer les projets par discipline"
+            aria-label={copy.filter}
             className="flex flex-wrap gap-2"
           >
             <button
@@ -48,18 +59,18 @@ export function ProjectsExplorer() {
                   : "border-ink/15 bg-transparent text-slate hover:border-ink/40 hover:text-ink"
               }`}
             >
-              Tous
+              {copy.all}
               <span
                 className={`text-[10px] ${
                   active === null ? "text-paper/60" : "text-ink/35"
                 }`}
               >
-                {projects.length}
+                {data.projects.length}
               </span>
             </button>
 
-            {categories.map((category) => {
-              const count = projects.filter((project) =>
+            {data.categories.map((category) => {
+              const count = data.projects.filter((project) =>
                 project.categories.includes(category),
               ).length;
               const selected = active === category;
@@ -108,21 +119,20 @@ export function ProjectsExplorer() {
             key={project.slug}
             project={project}
             index={project.order}
+            lang={lang}
           />
         ))}
       </div>
 
       {filtered.length === 0 ? (
         <div className="mt-12 border border-line px-6 py-16 text-center">
-          <p className="font-display text-2xl text-ink">
-            Aucun projet dans cette catégorie pour le moment.
-          </p>
+          <p className="font-display text-2xl text-ink">{copy.empty}</p>
           <button
             type="button"
             onClick={() => setActive(null)}
             className="mt-6 inline-flex border border-ink px-5 py-3 font-mono text-[10px] uppercase tracking-[0.12em] text-ink transition-colors hover:bg-ink hover:text-paper"
           >
-            Voir tous les projets
+            {copy.seeAll}
           </button>
         </div>
       ) : null}

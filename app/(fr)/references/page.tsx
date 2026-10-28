@@ -4,15 +4,14 @@ import { ArrowIcon } from "@/components/ArrowIcon";
 import { ArrowLink, Cta } from "@/components/Cta";
 import { SectionLabel } from "@/components/SectionLabel";
 import { getProject } from "@/data/projects";
+import { languageAlternates } from "@/data/seo";
 import { reveal } from "@/lib/reveal";
 
 export const metadata: Metadata = {
   title: "Références",
   description:
     "Organisations, programmes et marques pour lesquels Jean Marc Mahonté a conçu des supports : CILSS, OEACP, Christian Aid, WaterAid, Plan International, Youth Connekt, CNPS, Fonds Mwinda, Coris Bank, Canal+, GreenMax, Laborex, Azalai et autres.",
-  alternates: {
-    canonical: "/references/",
-  },
+  alternates: languageAlternates("fr", "/references/", "/en/references/"),
   openGraph: {
     title: "Références — Jean Marc Mahonté",
     description:

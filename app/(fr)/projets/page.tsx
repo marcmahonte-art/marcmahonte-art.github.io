@@ -3,14 +3,13 @@ import { Cta } from "@/components/Cta";
 import { ProjectsExplorer } from "@/components/ProjectsExplorer";
 import { SectionLabel } from "@/components/SectionLabel";
 import { projects } from "@/data/projects";
+import { languageAlternates } from "@/data/seo";
 
 export const metadata: Metadata = {
   title: "Projets",
   description:
     "Quinze études de cas en édition institutionnelle, identité visuelle, campagnes et communication numérique, réalisées pour des ONG, institutions et programmes de développement.",
-  alternates: {
-    canonical: "/projets/",
-  },
+  alternates: languageAlternates("fr", "/projets/", "/en/projects/"),
   openGraph: {
     title: "Projets — Jean Marc Mahonté",
     description:
