@@ -122,6 +122,7 @@ Le site n’a **pas de serveur d’envoi**. Le formulaire valide les champs puis
 - **Canal+** : année et commanditaire direct restent à préciser ; l’autorisation d’affichage est déclarée détenue, vérifier le périmètre d’usage de la marque.
 - **Laborex, Azalai, GreenMax, OEACP** : brief, année ou périmètre non précisés dans les sources ; ces limites figurent sur chaque fiche.
 - **Droits à l’image** : Jean Marc Mahonté déclare détenir les autorisations de diffusion pour chaque projet (octobre 2026). Conserver les justificatifs écrits et vérifier que leur périmètre couvre le portfolio en ligne, les réseaux sociaux et les recadrages.
+- **Références nominatives** : six référents sont nommés sur la page Références ; leurs coordonnées ne sont pas publiées et sont transmises sur demande, avec leur accord. Vérifier que chaque personne accepte d’être citée.
 - **CILSS** : exports de 540 px seulement ; les fichiers d’impression ne sont pas disponibles.
 - **Quatre dossiers sources vides** : BDT Tchad, Cour des Comptes, Ecobank et Telecel. Ils sont listés dans les références ; aucun ne fait l’objet d’une étude de cas.
 - **URL publique** : `https://marcmahonte-art.github.io`, définie dans le workflow. Pour un domaine personnalisé, définir `NEXT_PUBLIC_SITE_URL` avant le build.

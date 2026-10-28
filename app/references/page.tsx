@@ -256,6 +256,56 @@ const emptySources = [
   },
 ];
 
+type PersonReference = {
+  name: string;
+  role: string;
+  organisation: string;
+  missions: string;
+  caseSlugs?: string[];
+};
+
+const people: PersonReference[] = [
+  {
+    name: "Aicha Ouedraogo",
+    role: "Directrice",
+    organisation: "Sixième Sens SA — Ouagadougou",
+    missions:
+      "Direction créative et conception graphique exercées au sein de l’agence (2024 — présent).",
+  },
+  {
+    name: "Kambou Gabriel",
+    role: "Président",
+    organisation: "Association des Blogueurs du Burkina (ABB)",
+    missions:
+      "Cour des Comptes (2023), Christian Aid / FED (2021), WaterAid / Tour du Faso (2021), Blog Awards ABB (2020).",
+    caseSlugs: ["christian-aid-femmes-energie", "wateraid-tour-du-faso"],
+  },
+  {
+    name: "Audy-Fred Tetiniam",
+    role: "Responsable communication",
+    organisation: "Danon’s Group",
+    missions: "Ecobank / Pan African Microfinance Burkina Faso (2022).",
+  },
+  {
+    name: "Frederick Laldjim Mianyo",
+    role: "Ex-secrétaire",
+    organisation: "CTBF",
+    missions: "Forum des Tchadiens au Burkina Faso sur la situation du pays (2021).",
+  },
+  {
+    name: "Evelia Gad",
+    role: "Country Manager",
+    organisation: "Enter Africa / Telecel",
+    missions: "Bobo Games Week, Telecel Faso & Enter Africa (2021).",
+  },
+  {
+    name: "Konfè Dada",
+    role: "Gérant",
+    organisation: "Konfyam — Lino miel naturel",
+    missions: "Identité visuelle, étiquettes et packaging (2021).",
+  },
+];
+
 function ReferenceRow({ reference }: { reference: Reference }) {
   const project = reference.caseSlug
     ? getProject(reference.caseSlug)
@@ -295,6 +345,53 @@ function ReferenceRow({ reference }: { reference: Reference }) {
           ) : (
             <span className="label-mono pt-1 text-ink/30">CV</span>
           )}
+        </div>
+      </div>
+    </li>
+  );
+}
+
+function PersonReferenceRow({ person }: { person: PersonReference }) {
+  return (
+    <li className="border-b border-line">
+      <div className="grid gap-4 py-6 md:grid-cols-12 md:gap-8">
+        <div className="md:col-span-4">
+          <h3 className="font-display text-[1.15rem] font-semibold leading-tight tracking-[-0.01em] text-ink">
+            {person.name}
+          </h3>
+          <p className="mt-1.5 font-mono text-[10px] uppercase tracking-[0.1em] text-slate">
+            {person.role}
+          </p>
+          <p className="mt-1 text-sm leading-relaxed text-slate">
+            {person.organisation}
+          </p>
+        </div>
+        <div className="md:col-span-5">
+          <p className="text-sm leading-relaxed text-ink/80">
+            {person.missions}
+          </p>
+          {person.caseSlugs?.length ? (
+            <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+              {person.caseSlugs.map((slug) => {
+                const project = getProject(slug);
+                return project ? (
+                  <Link
+                    key={slug}
+                    href={`/projets/${project.slug}/`}
+                    className="group inline-flex items-center gap-2 text-xs text-ink transition-colors hover:text-teal-deep"
+                  >
+                    <span className="link-line">{project.title}</span>
+                    <ArrowIcon className="h-3 w-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </Link>
+                ) : null;
+              })}
+            </div>
+          ) : null}
+        </div>
+        <div className="flex items-start md:col-span-3 md:justify-end">
+          <span className="label-mono pt-1 text-right text-slate">
+            Coordonnées sur demande
+          </span>
         </div>
       </div>
     </li>
@@ -363,11 +460,49 @@ export default function ReferencesPage() {
         ))}
       </div>
 
-      <section className="shell border-b border-line py-12 md:py-16">
+      <section
+        className="shell border-b border-line py-12 md:py-16"
+        {...reveal()}
+      >
         <div className="grid gap-8 lg:grid-cols-12">
           <div className="lg:col-span-3">
             <div className="flex items-baseline gap-3">
               <span className="label-mono text-ink/30">04</span>
+              <h2 className="font-display text-xl font-semibold leading-tight tracking-[-0.01em]">
+                Références professionnelles
+              </h2>
+            </div>
+            <p className="mt-4 max-w-[34ch] text-sm leading-relaxed text-slate">
+              Personnes citées comme références pour les missions conduites.
+              Leurs coordonnées ne sont pas publiées afin de préserver leur vie
+              privée ; elles sont transmises sur demande, avec leur accord.
+            </p>
+          </div>
+          <div className="lg:col-span-9">
+            <ul className="border-t border-line">
+              {people.map((person) => (
+                <PersonReferenceRow key={person.name} person={person} />
+              ))}
+            </ul>
+            <p className="mt-5 text-xs leading-relaxed text-slate">
+              Pour obtenir une coordonnée, précisez la mission concernée via la{" "}
+              <Link
+                href="/contact/"
+                className="link-line text-ink transition-colors hover:text-teal-deep"
+              >
+                page de contact
+              </Link>
+              .
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="shell border-b border-line py-12 md:py-16">
+        <div className="grid gap-8 lg:grid-cols-12">
+          <div className="lg:col-span-3">
+            <div className="flex items-baseline gap-3">
+              <span className="label-mono text-ink/30">05</span>
               <h2 className="font-display text-xl font-semibold leading-tight tracking-[-0.01em]">
                 Sources sans visuels
               </h2>
